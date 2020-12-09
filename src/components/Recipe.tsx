@@ -38,20 +38,21 @@ export class Recipe extends React.Component<
 
   downloadPDF() {
     var opt = {
-      margin: 1,
-      filename: "myfile.pdf",
+      margin: 0.5,
+      filename: this.props.data.title,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scrollY: 0 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
     var element = document.getElementById(`recipe-${this.props.index}`);
+    element?.querySelector(".hiddenTitle")?.removeAttribute("hidden");
     html2pdf().from(element).set(opt).save();
   }
 
   render() {
     return (
       <>
-        <div className="column is-one-third-desktop">
+        <div className="column is-one-quarter-desktop">
           <div className="card recipe-card">
             <header className="card-header">
               <div className="card-header-title">{this.props.data.title}</div>
@@ -102,29 +103,43 @@ export class Recipe extends React.Component<
             className="modal-background"
             onClick={() => this.closeModal()}
           ></div>
-          <div className="modal-card">
+          <div className="modal-card recipe-modal">
             <div className="modal-card-head">
-              <p className="modal-card-title">{this.props.data.title}</p>
+              <h2 className="modal-card-title is-size-2">
+                {this.props.data.title}
+              </h2>
             </div>
             <section
               className="modal-card-body"
               id={`recipe-${this.props.index}`}
             >
-              <ul>
+              <div className="hiddenTitle" hidden>
+                <h2 className="is-size-3 hiddenTitle">
+                  {this.props.data.title}
+                </h2>
+                <hr />
+              </div>
+              <h3 className="is-size-3 has-text-justified">Ingredients</h3>
+              <hr />
+              <ul
+                className="has-text-justified"
+                style={{ width: "80%", margin: "0 auto" }}
+              >
                 {this.props.data.ingredients
                   .filter((i) => !!i.measurement && !!i.item)
                   .map((ingredient, index) => {
                     return (
                       <li key={index}>
-                        <span>-</span>
-                        {ingredient.measurement} of {ingredient.item}
+                        <i className="far fa-square"></i>&nbsp;
+                        {ingredient.measurement} - {ingredient.item}
                       </li>
                     );
                   })}
               </ul>
+              <br />
+              <h3 className="has-text-justified is-size-3">Directions</h3>
               <hr />
-              Yooooooooooo
-              <p>Yooooooooo{this.props.data.directions}</p>
+              <p>{this.props.data.directions}</p>
             </section>
             <div className="modal-card-foot is-justify-content-flex-end">
               <button

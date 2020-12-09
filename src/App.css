@@ -41,3 +41,7 @@
   max-height: 300px;
   overflow-y: auto;
 }
+
+.modal-card.recipe-modal .modal-card-title {
+  width: 100%;
+}
