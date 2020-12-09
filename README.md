@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# React Cookbook
+
+A simple cookbook with authentication for storing recipes. I lemme know in a PR if I misspelled recipes. Connects to [Recipe-Service](https://github.com/RBuster/recipe-service) for all the brains. Not yet hosted anywhere, will link to it when I get around to that.
+
+Below is the boiler plate for create react app. Just for knowledge.
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
