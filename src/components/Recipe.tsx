@@ -36,16 +36,29 @@ export class Recipe extends React.Component<
     }
   }
 
+  buildPDF() {
+    let dom = document.getElementById(`recipe-${this.props.index}`);
+    let clone = dom?.cloneNode(true);
+    let newNode = document.createElement("div");
+    let header = document.createElement("h2");
+    header.textContent = this.props.data.title;
+    header.setAttribute("class", "is-size-3");
+    let spacer = document.createElement("hr");
+    newNode?.appendChild(header);
+    newNode?.appendChild(spacer);
+    clone?.insertBefore(newNode, clone.firstChild);
+    return clone;
+  }
+
   downloadPDF() {
-    var opt = {
+    let element = this.buildPDF();
+    let opt = {
       margin: 0.5,
       filename: this.props.data.title,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scrollY: 0 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
-    var element = document.getElementById(`recipe-${this.props.index}`);
-    element?.querySelector(".hiddenTitle")?.removeAttribute("hidden");
     html2pdf().from(element).set(opt).save();
   }
 
@@ -113,12 +126,6 @@ export class Recipe extends React.Component<
               className="modal-card-body"
               id={`recipe-${this.props.index}`}
             >
-              <div className="hiddenTitle" hidden>
-                <h2 className="is-size-3 hiddenTitle">
-                  {this.props.data.title}
-                </h2>
-                <hr />
-              </div>
               <h3 className="is-size-3 has-text-justified">Ingredients</h3>
               <hr />
               <ul
